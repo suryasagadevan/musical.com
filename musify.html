@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Musify</title>
+	<link rel="stylesheet" type="text/css" href="musify.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+	<div class="container">
+<h3>Music Player</h3>
+<img  src="" id="track_img">
+<p id="title">title</p>
+<p id="artist">artist</p>
+<input type="range" name="" id="change_duration" min="0" max="100" value="0" onclick="change_duration()">
+<button id="back" onclick="previous()"><i class="fa fa-step-backward"></i></button>
+<button id="play" onclick="current()" ><i class="fa fa-play"> </i> </button>
+<button id="next" onclick="next_song()"><i class="fa fa-step-forward"></i></button>
+</div>
+<script>
+	let img_slider=document.querySelector('#track_img');
+	let title=document.querySelector('#title');
+	let artist=document.querySelector('#artist');
+	let range=document.querySelector('#change_duration');
+	let pre=document.querySelector('#back');
+	let play=document.querySelector('#play');
+	let next=document.querySelector('#next');
+	let timer;
+	//let total=document.createElement("p");
+	let auto_play=1;
+	let index=0;
+
+	let playing_song = false;
+	let track = document.createElement("audio");
+	let all_song = [
+	   {
+		name: "first song",
+		path:"E:/javascript/musicplay/songs/1.mp3",
+		img:"E:/javascript/musicplay/covers/img1.jpg",
+		artist:"singer1"
+	   },
+	   {
+		name: "second song",
+		path:"E:/javascript/musicplay/songs/2.mp3",
+		img:"E:/javascript/musicplay/covers/img2.jpg",
+		artist:"singer2"
+	   },
+	   {
+		name: "third song",
+		path:"E:/javascript/musicplay/songs/3.mp3",
+		img:"E:/javascript/musicplay/covers/img3.jpg",
+		artist:"singer3"
+	   },
+	   {
+		name: "four song",
+		path:"E:/javascript/musicplay/songs/4.mp3",
+		img:"E:/javascript/musicplay/covers/img4.jpg",
+		artist:"singer3"
+	   },
+	   {
+		name: "five song",
+		path:"E:/javascript/musicplay/songs/5.mp3",
+		img:"E:/javascript/musicplay/covers/img5.jpg",
+		artist:"singer3"
+	   },{
+		name: "six song",
+		path:"E:/javascript/musicplay/songs/6.mp3",
+		img:"E:/javascript/musicplay/covers/img6.jpg",
+		artist:"singer3"
+	   },
+	   {
+		name: "saven song",
+		path:"E:/javascript/musicplay/songs/7.mp3",
+		img:"E:/javascript/musicplay/covers/img7.jpg",
+		artist:"singer3"
+	   },
+	   {
+		name: "eight song",
+		path:"E:/javascript/musicplay/songs/8.mp3",
+		img:"E:/javascript/musicplay/covers/img8.jpg",
+		artist:"singer3"
+	   },
+	   {
+		name: "nine song",
+		path:"E:/javascript/musicplay/songs/9.mp3",
+		img:"E:/javascript/musicplay/covers/img9.jpg",
+		artist:"singer3"
+	   }
+	];
+	function load_track(index){
+		clearInterval(timer);
+		reset_slider();
+		track.src = all_song[index].path;
+		title.innerHTML=all_song[index].name;
+		img_slider.src=all_song[index].img;
+		artist.innerHTML=all_song[index].artist;
+		timer=setInterval(range_position,1000);
+		//total.innerHTML=all_song.length;
+		//present.innerHTML=index+1;
+	}
+	load_track(index);
+
+	function current(){
+		if(playing_song == false){
+			playsong();
+		}
+		else
+		{
+			pausesong();
+		}
+	}
+	function reset_slider(){
+		img_slider.value=0;
+	}
+	function playsong(){
+		track.play();
+		playing_song = true;
+		play.innerHTML='<i class="fa fa-pause"></i>';
+
+	}
+	function pausesong(){
+		track.pause();
+		playing_song=false;
+		play.innerHTML='<i class="fa fa-play"></i>'
+	}
+	function previous(){
+		if(index>0){
+			index-=1;
+			load_track(index);
+			playsong();
+		}
+		else
+		{
+			index=all_song.length;
+			load_track(index);
+			playsong();
+		}
+
+	}
+	function next_song() {
+		if(index<all_song.length-1){
+			index+=1;
+			load_track(index);
+			playsong();
+		}
+		else
+		{
+			index=0;
+			load_track(index);
+			playsong();
+		}
+		
+	}
+	function change_duration(){
+		range_position = track.duration * (range.value/100);
+		track.currentTime=range_position;
+	}
+
+ </script>
+</body>
+</html>
